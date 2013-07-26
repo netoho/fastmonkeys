@@ -1,0 +1,1 @@
+web: gunicorn fastmonkeys:app
