@@ -18,7 +18,7 @@ class PostQuery(BaseQuery, SearchQueryMixin):
 
 class Post(db.Model, Searchable):
     query_class = PostQuery
-    __searchable_columns__ = ['title', 'body', 'pub_date']
+    __searchable_columns__ = ['title', 'body']
     __tablename__ = 'post'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
