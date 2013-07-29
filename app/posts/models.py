@@ -23,7 +23,7 @@ class Post(db.Model, Searchable):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     body = db.Column(db.Text, nullable=False)
-    pub_date = db.Column(db.DateTime)
+    pub_date = db.Column(db.String(30))
     tags = db.relationship('Tag', secondary=tags,
                            backref=db.backref('posts', lazy='dynamic'))
 
@@ -31,7 +31,7 @@ class Post(db.Model, Searchable):
         self.title = title
         self.body = body
         if pub_date is None:
-            pub_date = datetime.utcnow()
+            pub_date = datetime.utcnow().strftime('%d %b %Y')
         self.pub_date = pub_date
         self.tags = tags
 
