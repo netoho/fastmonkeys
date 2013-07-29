@@ -1,0 +1,31 @@
+{% extends "bootstrap_responsive.html" %}
+{% import "bootstrap_wtf.html" as wtf %}
+
+{% block body_content %}
+
+    <div class="container">
+
+        <div class="row">
+            <div class="span12">
+                <h2>{{ post.title }}</h2>
+
+                <p>{{ post.body }}</p>
+
+                <form action="{{ url_for('posts.delete_post', id=post.id) }}" method="post"
+                      class="form form-horizontal">
+
+                        <a href="{{ url_for('posts.edit_post', id=post.id) }}" class="btn btn-primary">Edit Post</a>
+                        <button name="action_save" type="submit" class="btn btn-danger">Delete Post</button>
+
+                </form>
+            </div>
+        </div>
+
+        <hr>
+
+        <footer>
+            <p>&copy; NETO 2012</p>
+        </footer>
+
+    </div> <!-- /container -->
+{% endblock %}

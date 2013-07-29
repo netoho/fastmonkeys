@@ -1,0 +1,17 @@
+{% extends "bootstrap_responsive.html" %}
+{% import "bootstrap_wtf.html" as wtf %}
+{% block body_content %}
+    {% include 'flash.html' %}
+    <form action="{{ url_for('login') }}" method="post" class="form form-horizontal">
+
+        {{ form.hidden_tag() }}
+        {{ wtf.form_errors(form, False) }}
+
+        {{ wtf.horizontal_field(form.username) }}
+        {{ wtf.horizontal_field(form.password) }}
+        {{ wtf.horizontal_field(form.remember_me) }}
+        <div class="form-actions">
+            <button name="action_save" type="submit" class="btn btn-primary">Log In</button>
+        </div>
+    </form>
+{% endblock %}

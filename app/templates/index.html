@@ -1,0 +1,30 @@
+{% extends "bootstrap_responsive.html" %}
+{% import "bootstrap_wtf.html" as wtf %}
+
+{% block body_content %}
+
+    <div class="container">
+        <!-- Main hero unit for a primary marketing message or call to action -->
+        <div class="hero-unit">
+            <h1>NetoBlog</h1>
+            <p>This is a simple blog using Flask, which is pretty fast to learn microframework </p>
+            <p><a href="http://www.linkedin.com/pub/ernesto-huerta/47/40/a62" class="btn btn-primary btn-large">Learn more about Ernesto &raquo;</a></p>
+        </div>
+
+        <!-- Example row of columns -->
+        <div class="row">
+            <div class="span12">
+                <h2>Heading</h2>
+                <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                <p><a class="btn" href="{{ url_for('posts.list_posts') }}">View details &raquo;</a></p>
+            </div>
+        </div>
+
+        <hr>
+
+        <footer>
+            <p>&copy; NETO 2012</p>
+        </footer>
+
+    </div> <!-- /container -->
+{% endblock %}

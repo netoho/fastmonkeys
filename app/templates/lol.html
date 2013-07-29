@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" href="/static/css/jquery.taghandler.css">
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.16/themes/smoothness/jquery-ui.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.taghandler.js"></script>
+</head>
+<body>
+<ul id="array_tag_handler"></ul>
+<script type="text/javascript">
+    $("#array_tag_handler").tagHandler({
+        assignedTags: [ 'C', 'Perl', 'PHP' ],
+        availableTags: [ 'C', 'C++', 'C#', 'Java', 'Perl', 'PHP', 'Python' ],
+        autocomplete: true
+    });
+</script>
+</body>
+</html>

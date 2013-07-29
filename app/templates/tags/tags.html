@@ -1,0 +1,46 @@
+{% extends "bootstrap_responsive.html" %}
+{% import "bootstrap_wtf.html" as wtf %}
+
+{% block body_content %}
+
+    <div class="container">
+        <div class="row">
+            {% for tag in tags %}
+                <div class="btn-group" style="padding-bottom: 5px;">
+                    <button class="btn btn-info dropdown-toggle" data-toggle="dropdown" href="#">
+                        {{ tag.name }}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a tabindex="-1" href="{{ url_for('tags.show_tag', id=tag.id) }}">Post with this tag</a>
+                        </li>
+                        {% if current_user.is_authenticated() %}
+                            <li><a tabindex="-1" href="{{ url_for('tags.delete_tag', id=tag.id) }}">Delete tag</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endfor %}
+        </div>
+        {% if current_user.is_authenticated() %}
+            <div class="row">
+                <form action="{{ url_for('tags.tags') }}" method="post" class="form form-horizontal">
+                    <div class="row">
+                        <div class="span12">
+                            {{ form.hidden_tag() }}
+                            {{ wtf.form_errors(form, True) }}
+                            {{ form.name(id="neto",maxlength=5) }}
+                            <button name="action_save" type="submit" class="btn btn-primary">Add Tag</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+
+        <hr>
+
+        <footer>
+            <p>&copy; NETO 2012</p>
+        </footer>
+
+    </div> <!-- /container -->
+{% endblock %}
