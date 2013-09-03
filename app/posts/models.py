@@ -3,7 +3,6 @@ from datetime import datetime
 from sqlalchemy_searchable import Searchable
 from flask.ext.sqlalchemy import BaseQuery
 from sqlalchemy_searchable import SearchQueryMixin
-from app.tags.models import Tag
 
 __author__ = 'netoho'
 

@@ -6,7 +6,8 @@ from app.posts.forms import PostForm
 from flask.ext.login import login_required
 from flask import (Blueprint, session, redirect, url_for,
                    render_template, flash, request)
-from sqlalchemy_searchable import search
+import re
+
 import math
 
 __author__ = 'netoho'
@@ -88,23 +89,23 @@ def edit_post(id):
             tags_names = []
         else:
             tags_names = [tags_names]
-        if len(tags_names) == 1:
-            if Tag.query.filter_by(name=tags_names[0]).first():
-                tags.append(Tag.query.filter_by(name=tags_names[0]).first())
+        # if len(tags_names) == 1:
+        #     if Tag.query.filter_by(name=tags_names[0]).first():
+        #         tags.append(Tag.query.filter_by(name=tags_names[0]).first())
+        #     else:
+        #         new_tag = Tag(tags_names[0])
+        #         tags.append(new_tag)
+        #         db.session.add(new_tag)
+        #         db.session.commit()
+        # else:
+        for tag_name in tags_names:
+            if Tag.query.filter_by(name=tag_name).first():
+                tags.append(Tag.query.filter_by(name=tag_name).first())
             else:
-                new_tag = Tag(tags_names[0])
+                new_tag = Tag(tag_name)
                 tags.append(new_tag)
                 db.session.add(new_tag)
                 db.session.commit()
-        else:
-            for tag_name in tags_names:
-                if Tag.query.filter_by(name=tag_name).first():
-                    tags.append(Tag.query.filter_by(name=tag_name).first())
-                else:
-                    new_tag = Tag(tag_name)
-                    tags.append(new_tag)
-                    db.session.add(new_tag)
-                    db.session.commit()
         post.title = form.title.data
         post.body = form.body.data
         post.tags = tags
@@ -131,8 +132,17 @@ def delete_post(id):
 @mod.route('/search/<int:page>')
 def search_post(page=1):
     text = request.values.get('q')
-    q = " SELECT * FROM post WHERE to_tsvector('english', body || title) @@ to_tsquery('english', '%s')" % text
+    query = ""
+    for word in filter(lambda t: t!="", text.split(" ")):
+        query+=word+" & "
+    q = " SELECT * FROM post WHERE to_tsvector('english', body || title ) @@ to_tsquery('english', '%s')" % query[0:-3]
     posts = Post.query.from_statement(q).all()
+    for post in posts:
+        text_lower = [w.lower() for w in text.split(" ")]
+        body_span = ["<span style='background-color: yellow'>"+word+"</span>" if word.lower() in text_lower else word for word in re.findall(r"[\w']+", post.body)]
+        post.body = " ".join(body_span)
+        title_span = ["<span style='background-color: yellow'>"+word+"</span>" if word.lower() in text_lower else word for word in re.findall(r"[\w']+", post.title)]
+        post.title = " ".join(title_span)
     num_pages = int(math.ceil(float(len(posts)) / NUM_PAGES))
     flash('Results for %s' % text)
     return render_template('posts/search.html', posts=posts[(page-1)*NUM_PAGES:(page*NUM_PAGES)], num_pages=num_pages, page=page, text=text)
